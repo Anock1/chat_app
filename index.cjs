@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:'*',
+        origin:'https://chat-app-2mgs.onrender.com/',
         methods:["GET","POST"],
         allowedHeaders:['my-header'],
         credentials:true
