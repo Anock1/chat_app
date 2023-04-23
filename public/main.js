@@ -1,11 +1,11 @@
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://chat-app-2mgs.onrender.com/",{
+    withCredentials:true,
+    extraHeaders:{
+        "my-header":"abcd"
+    }
+});
 
-if ('geolocation' in navigator) {
-    console.log('available')
-} else{
-    console.log('no geolocation available')
-}
 const message = document.getElementById('message');
 const username = document.getElementById('username');
 const output = document.getElementById('output');

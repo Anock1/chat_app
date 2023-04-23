@@ -1,19 +1,23 @@
-const  express =require('express');
+
+const express = require('express');
+const PORT = process.env.PORT || 5000;
+const http =require('http');
+const Server = require('socket.io').Server;
 const app = express();
-const port = process.env.PORT || 5000;
-const socket =require('socket.io');
-
-// static files
-app.use(express.static('public'))
 
 
-const server = app.listen(port,()=>{
-//console.log(`🔥 server running on port:${port}`) 
-});
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors:{
+        origin:'*',
+        methods:["GET","POST"],
+        allowedHeaders:['my-header'],
+        credentials:true
+    }
+})
 
-const io = socket(server,{});
 io.on('connection',(socket)=>{
-   // console.log(`🔥User:${socket.id} joined the chat`)
+    console.log(`🔥User:${socket.id} joined the chat`)
 
     socket.on('chat',(payload)=>{
         console.log('what is payload:', payload);
@@ -24,7 +28,12 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('typing',data)
       })
     socket.on('disconnect',()=>{
-    //console.log(`🔥User:${socket.id} left`)
+     console.log(`🔥User:${socket.id} left`)
     })
 
+})
+
+
+server.listen(PORT,()=>{
+  console.log(`server running on http://localhost:${PORT}`)
 })
